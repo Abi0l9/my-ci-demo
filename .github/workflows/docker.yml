@@ -1,11 +1,14 @@
 name: Build and Push Docker Image
 
 on:
-    push:
-        branches: [main]
+    workflow_run:
+        workflows: ["nodejs.yml"]
+        types:
+            - completed
 
 jobs:
-    build-and-push:
+    docker-deploy:
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
 
         steps:
@@ -26,4 +29,6 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: fu91t1v3/my-ci-demo-app:latest
+                  tags: |
+                      fu91t1v3/my-ci-demo-app:latest
+                      fu91t1v3/my-ci-demo-app:${{github.sha}}

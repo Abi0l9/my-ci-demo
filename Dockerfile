@@ -2,7 +2,7 @@
 FROM node:20
 
 # 2. Set working directory
-WORKDIR ./
+WORKDIR .
 
 # 3. Copy package files first (for caching)
 COPY package*.json ./
